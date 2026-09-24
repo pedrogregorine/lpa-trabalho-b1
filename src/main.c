@@ -19,12 +19,26 @@ int main(void){
 	int tentativas;
 	float adicionalTentativas = 4;
 	float valorTentativas;
+	int continuar;
 	
+	do{
 	printf("Digite qual a distancia da entrega em KM: \n");
 	scanf("%f", &distancia);
 	
+	while (distancia <= 0){
+	printf("Distancia invalida. \n");
+	printf("Digite novamente a distancia: ");
+	scanf("%f", &distancia);
+	}
+	
 	printf("\nDigite o peso da encomenda: \n");
 	scanf("%f", &peso);
+	
+	while (peso <= 0){
+	printf("Peso invalido. \n");
+	printf("Digite novamente o peso: ");
+	scanf("%f", &peso);
+	}
 	
 	printf("Escolha a modalidade da entrega\n");
 	printf("1 - ECONOMICA\n");
@@ -39,7 +53,7 @@ int main(void){
 	scanf("%d", &modalidade);
 	}
 	
-	printf("Servico de Protecao");
+	printf("Servico de Protecao\n");
 	printf("1 - QUERO (+ RS7,50)\n");
 	printf("0 - NAO QUERO\n");
 	scanf("%d", &protecao);
@@ -98,7 +112,7 @@ int main(void){
 	switch(protecao){
 	case 1: adicionalProtecao = 7.50 ;
 	break;
-	case 2: adicionalProtecao = 0;
+	case 0: adicionalProtecao = 0;
 	break;
 	}
 	
@@ -106,6 +120,20 @@ int main(void){
 	
 	printf("\nValor final da entrega: R$ %.2f\n", totalEntrega);
 	
-	
-	 return 0;
+    printf("\nDeseja processar outra entrega?\n");
+	printf("1 - SIM\n");
+	printf("0 - NAO\n");
+	printf("Escolha: ");
+	scanf("%d", &continuar);
+
+	while (continuar != 0 && continuar != 1){
+		printf("Opcao invalida. \n");
+		printf("Digite novamente: ");
+		scanf("%d", &continuar);
+	}
+
+	} while (continuar == 1);
+
+	return 0;
 }
+
