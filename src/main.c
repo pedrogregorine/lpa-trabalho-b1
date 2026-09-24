@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int obterModalidadeValida(void);
-
-
-
+float criarDistanciaValida(void);
+float criarPesoValido(void);
+int criarModalidadeValida(void);
+int criarProtecaoValida(void);
+int criarTentativasValidas(void);
 
 int main(void){
 	
@@ -35,45 +36,11 @@ int main(void){
 	
 	do{
 	
-	printf("Digite qual a distancia da entrega em KM: \n");
-	scanf("%f", &distancia);
-	
-	while (distancia <= 0){
-	printf("Distancia invalida. \n");
-	printf("Digite novamente a distancia: ");
-	scanf("%f", &distancia);
-	}
-	
-	printf("\nDigite o peso da encomenda: \n");
-	scanf("%f", &peso);
-	
-	while (peso <= 0){
-	printf("Peso invalido. \n");
-	printf("Digite novamente o peso: ");
-	scanf("%f", &peso);
-	}
-	
+    distancia = criarDistanciaValida();
+	peso = criarPesoValido();
 	modalidade = criarModalidadeValida();
-	
-	printf("Servico de Protecao\n");
-	printf("1 - QUERO (+ RS7,50)\n");
-	printf("0 - NAO QUERO\n");
-	scanf("%d", &protecao);
-	
-	while (protecao != 0 && protecao != 1){
-	printf("Opcao invalida. \n");
-	printf("Digite novamente a opcao: ");
-	scanf("%d", &protecao);
-	}
-	
-	printf("Quantas tentativas adicionais foram feitas: ");
-	scanf("%d", &tentativas);
-	
-	while (tentativas < 0){
-	printf("Opcao invalida. \n");
-	printf("Digite novamente as tentativas adicionais: ");
-	scanf("%d", &tentativas);
-	}
+	protecao = criarProtecaoValida();
+	tentativas = criarTentativasValidas();
 	
     valorTentativas = tentativas * adicionalTentativas;
 	
@@ -192,3 +159,64 @@ int criarModalidadeValida(void){
 	return modalidade;
 }
 
+float criarDistanciaValida(void){
+	float distancia;
+
+	printf("Digite qual a distancia da entrega em KM: \n");
+	scanf("%f", &distancia);
+
+	while (distancia <= 0){
+		printf("Distancia invalida. \n");
+		printf("Digite novamente a distancia: ");
+		scanf("%f", &distancia);
+	}
+
+	return distancia;
+}
+
+float criarPesoValido(void){
+	float peso;
+
+	printf("\nDigite o peso da encomenda: \n");
+	scanf("%f", &peso);
+
+	while (peso <= 0){
+		printf("Peso invalido. \n");
+		printf("Digite novamente o peso: ");
+		scanf("%f", &peso);
+	}
+
+	return peso;
+}
+
+int criarProtecaoValida(void){
+	int protecao;
+
+	printf("Servico de Protecao\n");
+	printf("1 - QUERO (+ R$7,50)\n");
+	printf("0 - NAO QUERO\n");
+	scanf("%d", &protecao);
+
+	while (protecao != 0 && protecao != 1){
+		printf("Opcao invalida. \n");
+		printf("Digite novamente a opcao: ");
+		scanf("%d", &protecao);
+	}
+
+	return protecao;
+}
+
+int criarTentativasValidas(void){
+	int tentativas;
+
+	printf("Quantas tentativas adicionais foram feitas: ");
+	scanf("%d", &tentativas);
+
+	while (tentativas < 0){
+		printf("Quantidade invalida. \n");
+		printf("Digite novamente as tentativas adicionais: ");
+		scanf("%d", &tentativas);
+	}
+
+	return tentativas;
+}
