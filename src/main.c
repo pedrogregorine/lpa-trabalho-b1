@@ -11,24 +11,18 @@ float identificarValorBase(float distancia);
 float identificarPercentualPeso(float peso);
 float identificarPercentualModalidade(int modalidade);
 
+float calcularValorFinal(float distancia, float peso, int modalidade, int protecao, int tentativas);
+
+void exibirResumo(int totalEntregas, float somaValores, int totalEconomicas, int totalExpressas, int totalPrioritarias, float maiorValor, float menorValor);
+
 int main(void){
 	
 	float distancia;
 	float peso;
-	float percentPeso;
-	float adicionalPeso;
 	float totalEntrega; 
-	float precoBaseDistancia;
-	float subtotal;
-	float tarifa = 1.20;
 	int modalidade;
-	float percentModalidade; 
-	float adicionalModalidade;
 	int protecao;
-	float adicionalProtecao;
 	int tentativas;
-	float adicionalTentativas = 4;
-	float valorTentativas;
 	int continuar;
 	int totalEntregas = 0;
 	float somaValores = 0;
@@ -46,28 +40,7 @@ int main(void){
 	protecao = criarProtecaoValida();
 	tentativas = criarTentativasValidas();
 	
-    valorTentativas = tentativas * adicionalTentativas;
-	
-	precoBaseDistancia = identificarValorBase(distancia);
-	
-	subtotal = precoBaseDistancia + (distancia * tarifa);
-	
-	percentPeso = identificarPercentualPeso(peso);
-	
-	adicionalPeso = subtotal * percentPeso;
-	
-	percentModalidade = identificarPercentualModalidade(modalidade);
-	
-	adicionalModalidade = subtotal * percentModalidade;
-
-	switch(protecao){
-	case 1: adicionalProtecao = 7.50 ;
-	break;
-	case 0: adicionalProtecao = 0;
-	break;
-	}
-	
-	totalEntrega = subtotal + adicionalPeso + adicionalModalidade + adicionalProtecao + valorTentativas;
+	totalEntrega = calcularValorFinal(distancia, peso, modalidade, protecao, tentativas);
 	
 	printf("\nValor final da entrega: R$ %.2f\n", totalEntrega);
 	
@@ -109,16 +82,8 @@ int main(void){
 
 	} while (continuar == 1);
 
-	printf("\nRESUMO\n");
-	printf("Total de entregas: %d\n", totalEntregas);
-	printf("Valor total: R$ %.2f\n", somaValores);
-	printf("Valor medio: R$ %.2f\n", somaValores / totalEntregas);
-	printf("Entregas economicas: %d\n", totalEconomicas);
-	printf("Entregas expressas: %d\n", totalExpressas);
-	printf("Entregas prioritarias: %d\n", totalPrioritarias);
-	printf("Maior valor: R$ %.2f\n", maiorValor);
-	printf("Menor valor: R$ %.2f\n", menorValor);
-
+	exibirResumo(totalEntregas, somaValores, totalEconomicas, totalExpressas, totalPrioritarias, maiorValor, menorValor);
+	
 	return 0;
 }
 
@@ -251,4 +216,37 @@ float identificarPercentualModalidade(int modalidade){
 	}
 
 	return percentual;
+}
+
+float calcularValorFinal(float distancia, float peso, int modalidade, int protecao, int tentativas){
+	float subtotal;
+	float adicionalPeso;
+	float adicionalModalidade;
+	float adicionalProtecao;
+	float valorTentativas;
+
+	subtotal = identificarValorBase(distancia) + (distancia * 1.20);
+	adicionalPeso = subtotal * identificarPercentualPeso(peso);
+	adicionalModalidade = subtotal * identificarPercentualModalidade(modalidade);
+
+	adicionalProtecao = 0;
+	if (protecao == 1){
+		adicionalProtecao = 7.50;
+	}
+
+	valorTentativas = tentativas * 4;
+
+	return subtotal + adicionalPeso + adicionalModalidade + adicionalProtecao + valorTentativas;
+}
+
+void exibirResumo(int totalEntregas, float somaValores, int totalEconomicas, int totalExpressas, int totalPrioritarias, float maiorValor, float menorValor){
+	printf("\nRESUMO\n");
+	printf("Total de entregas: %d\n", totalEntregas);
+	printf("Valor total: R$ %.2f\n", somaValores);
+	printf("Valor medio: R$ %.2f\n", somaValores / totalEntregas);
+	printf("Entregas economicas: %d\n", totalEconomicas);
+	printf("Entregas expressas: %d\n", totalExpressas);
+	printf("Entregas prioritarias: %d\n", totalPrioritarias);
+	printf("Maior valor: R$ %.2f\n", maiorValor);
+	printf("Menor valor: R$ %.2f\n", menorValor);
 }
