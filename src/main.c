@@ -7,6 +7,10 @@ int criarModalidadeValida(void);
 int criarProtecaoValida(void);
 int criarTentativasValidas(void);
 
+float identificarValorBase(float distancia);
+float identificarPercentualPeso(float peso);
+float identificarPercentualModalidade(int modalidade);
+
 int main(void){
 	
 	float distancia;
@@ -44,40 +48,18 @@ int main(void){
 	
     valorTentativas = tentativas * adicionalTentativas;
 	
-	if(distancia <= 5){
-		precoBaseDistancia = 8;
-	}else if (distancia <= 15){
-		precoBaseDistancia = 12;
-	}else if (distancia <= 30){
-		precoBaseDistancia = 18;
-	}else{
-		precoBaseDistancia = 25;
-	}
+	precoBaseDistancia = identificarValorBase(distancia);
 	
 	subtotal = precoBaseDistancia + (distancia * tarifa);
 	
-	if (peso <= 2){
-		percentPeso = 0;
-	}else if(peso <= 5){
-		percentPeso = 0.05;
-	}else if (peso <= 10){
-		percentPeso = 0.1;
-	}else{
-		percentPeso = 0.2;
-	}
+	percentPeso = identificarPercentualPeso(peso);
 	
 	adicionalPeso = subtotal * percentPeso;
 	
-	switch(modalidade){
-		case 1: percentModalidade = 0;
-		break;
-		case 2: percentModalidade = 0.15;
-		break;
-		case 3: percentModalidade = 0.3;
-	}
+	percentModalidade = identificarPercentualModalidade(modalidade);
 	
 	adicionalModalidade = subtotal * percentModalidade;
-	
+
 	switch(protecao){
 	case 1: adicionalProtecao = 7.50 ;
 	break;
@@ -127,7 +109,7 @@ int main(void){
 
 	} while (continuar == 1);
 
-	printf("\RESUMO\n");
+	printf("\nRESUMO\n");
 	printf("Total de entregas: %d\n", totalEntregas);
 	printf("Valor total: R$ %.2f\n", somaValores);
 	printf("Valor medio: R$ %.2f\n", somaValores / totalEntregas);
@@ -219,4 +201,54 @@ int criarTentativasValidas(void){
 	}
 
 	return tentativas;
+}
+
+float identificarValorBase(float distancia){
+	float valorBase;
+
+	if (distancia <= 5){
+	valorBase = 8;
+	} else if (distancia <= 15){
+	valorBase = 12;
+	} else if (distancia <= 30){
+	valorBase = 18;
+	} else {
+	valorBase = 25;
+	}
+
+	return valorBase;
+}
+
+float identificarPercentualPeso(float peso){
+	float percentual;
+
+	if (peso <= 2){
+	percentual = 0;
+	} else if (peso <= 5){
+	percentual = 0.05;
+	} else if (peso <= 10){
+	percentual = 0.1;
+	} else {
+	percentual = 0.2;
+	}
+
+	return percentual;
+}
+
+float identificarPercentualModalidade(int modalidade){
+	float percentual;
+
+	switch (modalidade){
+	case 1:
+		percentual = 0;
+		break;
+	case 2:
+		percentual = 0.15;
+		break;
+	case 3:
+		percentual = 0.3;
+		break;
+	}
+
+	return percentual;
 }
