@@ -20,8 +20,16 @@ int main(void){
 	float adicionalTentativas = 4;
 	float valorTentativas;
 	int continuar;
+	int totalEntregas = 0;
+	float somaValores = 0;
+	int totalEconomicas = 0;
+	int totalExpressas = 0;
+	int totalPrioritarias = 0;
+	float maiorValor = 0;
+	float menorValor = 0;
 	
 	do{
+	
 	printf("Digite qual a distancia da entrega em KM: \n");
 	scanf("%f", &distancia);
 	
@@ -120,6 +128,30 @@ int main(void){
 	
 	printf("\nValor final da entrega: R$ %.2f\n", totalEntrega);
 	
+	totalEntregas++;
+	somaValores += totalEntrega;
+
+	switch(modalidade){
+		case 1: totalEconomicas++;
+			break;
+		case 2: totalExpressas++;
+			break;
+		case 3: totalPrioritarias++;
+			break;
+	}
+
+	if (totalEntregas == 1){
+		maiorValor = totalEntrega;
+		menorValor = totalEntrega;
+	} else {
+	if (totalEntrega > maiorValor){
+		maiorValor = totalEntrega;
+	}
+	if (totalEntrega < menorValor){
+		menorValor = totalEntrega;
+	}
+	}
+	
     printf("\nDeseja processar outra entrega?\n");
 	printf("1 - SIM\n");
 	printf("0 - NAO\n");
@@ -133,6 +165,16 @@ int main(void){
 	}
 
 	} while (continuar == 1);
+
+	printf("\RESUMO\n");
+	printf("Total de entregas: %d\n", totalEntregas);
+	printf("Valor total: R$ %.2f\n", somaValores);
+	printf("Valor medio: R$ %.2f\n", somaValores / totalEntregas);
+	printf("Entregas economicas: %d\n", totalEconomicas);
+	printf("Entregas expressas: %d\n", totalExpressas);
+	printf("Entregas prioritarias: %d\n", totalPrioritarias);
+	printf("Maior valor: R$ %.2f\n", maiorValor);
+	printf("Menor valor: R$ %.2f\n", menorValor);
 
 	return 0;
 }
