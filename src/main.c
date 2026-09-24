@@ -1,6 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define TARIFA_KM 1.20
+#define VALOR_PROTECAO 7.50
+#define VALOR_TENTATIVA 4.0
+
+#define BASE_ATE_5KM 8
+#define BASE_ATE_15KM 12
+#define BASE_ATE_30KM 18
+#define BASE_ACIMA_30KM 25
+
+#define PERCENTUAL_PESO_ATE_5KG 0.05
+#define PERCENTUAL_PESO_ATE_10KG 0.10
+#define PERCENTUAL_PESO_ACIMA_10KG 0.20
+
+#define PERCENTUAL_EXPRESSA 0.15
+#define PERCENTUAL_PRIORITARIA 0.30
+
 float criarDistanciaValida(void);
 float criarPesoValido(void);
 int criarModalidadeValida(void);
@@ -172,13 +188,13 @@ float identificarValorBase(float distancia){
 	float valorBase;
 
 	if (distancia <= 5){
-	valorBase = 8;
+		valorBase = BASE_ATE_5KM;
 	} else if (distancia <= 15){
-	valorBase = 12;
+		valorBase = BASE_ATE_15KM;
 	} else if (distancia <= 30){
-	valorBase = 18;
+		valorBase = BASE_ATE_30KM;
 	} else {
-	valorBase = 25;
+		valorBase = BASE_ACIMA_30KM;
 	}
 
 	return valorBase;
@@ -188,13 +204,13 @@ float identificarPercentualPeso(float peso){
 	float percentual;
 
 	if (peso <= 2){
-	percentual = 0;
+		percentual = 0;
 	} else if (peso <= 5){
-	percentual = 0.05;
+		percentual = PERCENTUAL_PESO_ATE_5KG;
 	} else if (peso <= 10){
-	percentual = 0.1;
+		percentual = PERCENTUAL_PESO_ATE_10KG;
 	} else {
-	percentual = 0.2;
+		percentual = PERCENTUAL_PESO_ACIMA_10KG;
 	}
 
 	return percentual;
@@ -208,10 +224,10 @@ float identificarPercentualModalidade(int modalidade){
 		percentual = 0;
 		break;
 	case 2:
-		percentual = 0.15;
+		percentual = PERCENTUAL_EXPRESSA;
 		break;
 	case 3:
-		percentual = 0.3;
+		percentual = PERCENTUAL_PRIORITARIA;
 		break;
 	}
 
@@ -225,16 +241,16 @@ float calcularValorFinal(float distancia, float peso, int modalidade, int protec
 	float adicionalProtecao;
 	float valorTentativas;
 
-	subtotal = identificarValorBase(distancia) + (distancia * 1.20);
+	subtotal = identificarValorBase(distancia) + (distancia * TARIFA_KM);
 	adicionalPeso = subtotal * identificarPercentualPeso(peso);
 	adicionalModalidade = subtotal * identificarPercentualModalidade(modalidade);
 
 	adicionalProtecao = 0;
 	if (protecao == 1){
-		adicionalProtecao = 7.50;
+		adicionalProtecao = VALOR_PROTECAO;
 	}
 
-	valorTentativas = tentativas * 4;
+	valorTentativas = tentativas * VALOR_TENTATIVA;
 
 	return subtotal + adicionalPeso + adicionalModalidade + adicionalProtecao + valorTentativas;
 }
