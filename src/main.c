@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int obterModalidadeValida(void);
+
+
+
+
 int main(void){
 	
 	float distancia;
@@ -48,18 +53,7 @@ int main(void){
 	scanf("%f", &peso);
 	}
 	
-	printf("Escolha a modalidade da entrega\n");
-	printf("1 - ECONOMICA\n");
-	printf("2 - EXPRESSA\n");
-	printf("3 - PRIORITARIA\n");
-	printf("\nDigite sua opção: \n");
-	scanf("%d", &modalidade);
-	
-	while (modalidade <1 || modalidade > 3){
-	printf("Modalidade invalida. \n");
-	printf("Digite novamente a modalidade: ");
-	scanf("%d", &modalidade);
-	}
+	modalidade = criarModalidadeValida();
 	
 	printf("Servico de Protecao\n");
 	printf("1 - QUERO (+ RS7,50)\n");
@@ -177,5 +171,24 @@ int main(void){
 	printf("Menor valor: R$ %.2f\n", menorValor);
 
 	return 0;
+}
+
+int criarModalidadeValida(void){
+	int modalidade;
+
+	printf("Escolha a modalidade da entrega\n");
+	printf("1 - ECONOMICA\n");
+	printf("2 - EXPRESSA\n");
+	printf("3 - PRIORITARIA\n");
+	printf("\nDigite sua opcao: \n");
+	scanf("%d", &modalidade);
+
+	while (modalidade < 1 || modalidade > 3){
+		printf("Modalidade invalida. \n");
+		printf("Digite novamente a modalidade: ");
+		scanf("%d", &modalidade);
+	}
+
+	return modalidade;
 }
 
